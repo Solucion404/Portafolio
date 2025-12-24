@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar.tsx";
 import Hero from "../components/Hero.tsx";
 import BentoGrid from "../components/BentoGrid.tsx";
 import Projects from "../components/Projects.tsx";
+import ContactForm from "../components/ContactForm.tsx";
 import StackMarquee from "../components/StackMarquee.tsx";
 import Footer from "../components/Footer.tsx";
 ---
@@ -22,7 +23,8 @@ import Footer from "../components/Footer.tsx";
 					<h2 class="text-4xl md:text-5xl font-bold mb-4">
 						Proyectos <span
 							class="text-accent underline decoration-accent/30 underline-offset-8"
-							>Recientes</span>
+							>Recientes</span
+						>
 					</h2>
 					<p class="text-text-secondary text-lg">
 						Soluciones digitales construidas con eficiencia y
@@ -39,22 +41,21 @@ import Footer from "../components/Footer.tsx";
 			>
 			</div>
 			<div
-				class="container mx-auto max-w-4xl glass p-12 rounded-[40px] text-center space-y-8 border border-accent/20"
+				class="container mx-auto max-w-4xl glass p-12 rounded-[40px] text-center space-y-12 border border-accent/20"
 			>
-				<h2 class="text-4xl md:text-6xl font-bold">
-					¿Listo para encontrar tu <span class="text-accent"
-						>Solución</span
-					>?
-				</h2>
-				<p class="text-text-secondary text-xl max-w-2xl mx-auto">
-					Hablemos sobre cómo podemos digitalizar y automatizar tu
-					negocio para llevarlo al siguiente nivel.
-				</p>
-				<button
-					class="bg-accent text-background px-12 py-5 rounded-2xl font-bold text-xl neon-glow hover:scale-105 transition-transform"
-				>
-					Iniciar Conversación
-				</button>
+				<div class="space-y-4">
+					<h2 class="text-4xl md:text-6xl font-bold">
+						¿Listo para encontrar tu <span class="text-accent"
+							>Solución</span
+						>?
+					</h2>
+					<p class="text-text-secondary text-xl max-w-2xl mx-auto">
+						Hablemos sobre cómo podemos digitalizar y automatizar tu
+						negocio para llevarlo al siguiente nivel.
+					</p>
+				</div>
+
+				<ContactForm client:visible />
 			</div>
 		</section>
 	</main>
