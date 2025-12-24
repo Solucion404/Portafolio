@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
     return (
@@ -17,6 +17,9 @@ export default function Footer() {
                         <p className="text-text-secondary max-w-sm leading-relaxed">
                             Especialistas en transformar problemas técnicos en ventajas competitivas. Desarrollo eficiente para la era moderna.
                         </p>
+                        <div className="text-sm font-mono text-accent/80">
+                            TEL: +52 622 182 8935
+                        </div>
                     </div>
 
                     <div className="space-y-4">
@@ -32,14 +35,14 @@ export default function Footer() {
                     <div className="space-y-4">
                         <h4 className="font-bold text-lg">Social</h4>
                         <div className="flex gap-4">
-                            <a href="#" className="w-10 h-10 glass rounded-xl flex items-center justify-center hover:border-accent/50 hover:text-accent transition-all">
+                            <a href="https://github.com/alb3r7g12" target="_blank" rel="noopener noreferrer" className="w-10 h-10 glass rounded-xl flex items-center justify-center hover:border-accent/50 hover:text-accent transition-all" title="GitHub">
                                 <Github size={20} />
                             </a>
-                            <a href="#" className="w-10 h-10 glass rounded-xl flex items-center justify-center hover:border-accent/50 hover:text-accent transition-all">
+                            <a href="https://www.linkedin.com/in/albertgconstantino" target="_blank" rel="noopener noreferrer" className="w-10 h-10 glass rounded-xl flex items-center justify-center hover:border-accent/50 hover:text-accent transition-all" title="LinkedIn">
                                 <Linkedin size={20} />
                             </a>
-                            <a href="#" className="w-10 h-10 glass rounded-xl flex items-center justify-center hover:border-accent/50 hover:text-accent transition-all">
-                                <Twitter size={20} />
+                            <a href="mailto:solucion404.dev@gmail.com" className="w-10 h-10 glass rounded-xl flex items-center justify-center hover:border-accent/50 hover:text-accent transition-all" title="Email">
+                                <Mail size={20} />
                             </a>
                         </div>
                     </div>

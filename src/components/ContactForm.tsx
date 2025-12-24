@@ -6,6 +6,7 @@ import { Send, CheckCircle, AlertCircle } from "lucide-react";
 export default function ContactForm() {
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [submittedEmail, setSubmittedEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -19,6 +20,7 @@ export default function ContactForm() {
             setErrorMessage("Hubo un problema al enviar el mensaje. Inténtalo de nuevo.");
             setStatus("error");
         } else {
+            setSubmittedEmail(formData.email);
             setStatus("success");
             setFormData({ name: "", email: "", message: "" });
         }
@@ -44,7 +46,7 @@ export default function ContactForm() {
                         </div>
                         <h3 className="text-2xl font-bold">¡Mensaje recibido!</h3>
                         <p className="text-text-secondary">
-                            Gracias por contactarme. Te responderé lo antes posible para empezar a trabajar en tu solución.
+                            ¡Gracias! He recibido tu mensaje. Te responderé a <span className="text-accent underline font-bold">{submittedEmail}</span> lo antes posible.
                         </p>
                         <button
                             onClick={() => setStatus("idle")}
