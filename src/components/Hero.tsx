@@ -1,67 +1,13 @@
 import { motion } from "framer-motion";
-import { MoveRight, Terminal as TerminalIcon } from "lucide-react";
+import { MoveRight } from "lucide-react";
+import TerminalTyper from "./TerminalTyper";
 
-const Terminal = () => {
-    return (
-        <div className="w-full max-w-xl glass rounded-xl overflow-hidden shadow-2xl border border-white/5">
-            <div className="bg-white/5 px-4 py-2 flex items-center gap-2 border-b border-white/5">
-                <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                </div>
-                <div className="flex items-center gap-2 text-[10px] text-text-secondary font-mono ml-4">
-                    <TerminalIcon size={12} />
-                    <span>bash — solution404.sh</span>
-                </div>
-            </div>
-            <div className="p-6 font-mono text-sm space-y-2">
-                <div className="flex gap-2">
-                    <span className="text-accent">$</span>
-                    <span className="text-text-primary">find --solution "digital-chaos"</span>
-                </div>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-text-secondary"
-                >
-                    Searching for efficiency...
-                </motion.div>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                    className="text-accent"
-                >
-                    [SUCCESS] Optimized workflow found.
-                </motion.div>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2.2 }}
-                    className="flex gap-2"
-                >
-                    <span className="text-accent">$</span>
-                    <span className="text-text-primary">deploy --startup "Solución404"</span>
-                </motion.div>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 3 }}
-                    className="text-white font-bold"
-                >
-                    Compiling Solution... Done.
-                </motion.div>
-                <motion.div
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ repeat: Infinity, duration: 0.8 }}
-                    className="w-2 h-5 bg-accent inline-block align-middle"
-                />
-            </div>
-        </div>
-    );
-};
+const terminalPhrases = [
+    "iniciating system...",
+    "loading modules...",
+    "optimizing experience...",
+    "ready for production."
+];
 
 export default function Hero() {
     return (
@@ -115,7 +61,7 @@ export default function Hero() {
                     className="relative"
                 >
                     <div className="absolute -inset-10 bg-accent/20 blur-[100px] rounded-full pointer-events-none" />
-                    <Terminal />
+                    <TerminalTyper phrases={terminalPhrases} />
                 </motion.div>
             </div>
         </section>
