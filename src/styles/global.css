@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0A0A0A;
+  --color-card: #171717;
+  --color-accent: #00E055;
+  --color-text-primary: #F3F4F6;
+  --color-text-secondary: #9CA3AF;
+
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --shadow-neon: 0 0 15px rgba(0, 224, 85, 0.2);
+  --shadow-neon-strong: 0 0 25px rgba(0, 224, 85, 0.4);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+}
+
+/* Custom Utilities using vanilla CSS or simple Tailwind classes */
+.glass {
+  background-color: rgba(23, 23, 23, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.neon-glow {
+  box-shadow: var(--shadow-neon);
+  transition: all 0.3s ease;
+}
+
+.neon-glow:hover {
+  box-shadow: var(--shadow-neon-strong);
+}
+
+.neon-border {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.neon-border:hover {
+  border-color: rgba(0, 224, 85, 0.5);
+}
+
+.bento-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  background-color: rgba(23, 23, 23, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.bento-item:hover {
+  border-color: rgba(0, 224, 85, 0.5);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F1F1F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 224, 85, 0.3);
+}

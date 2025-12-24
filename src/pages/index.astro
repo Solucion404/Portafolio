@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.tsx';
+import Hero from '../components/Hero.tsx';
+import BentoGrid from '../components/BentoGrid.tsx';
+import StackMarquee from '../components/StackMarquee.tsx';
+import Footer from '../components/Footer.tsx';
+---
+
+<Layout title="Solución404 | Desarrollo Web y Automatización">
+	<Navbar client:load />
+	<main>
+		<Hero client:load />
+		<StackMarquee client:load />
+		<BentoGrid client:visible />
+		
+		<!-- Additional sections can be added here -->
+		<section id="portafolio" class="py-24 px-6 bg-white/[0.01]">
+			<div class="container mx-auto text-center">
+				<h2 class="text-4xl md:text-5xl font-bold mb-8">Proyectos <span class="text-accent">Recientes</span></h2>
+				<div class="glass p-12 rounded-3xl border border-dashed border-white/10">
+					<p class="text-text-secondary text-xl italic">Próximamente... estamos compilando nuestras mejores soluciones.</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="contacto" class="py-24 px-6 relative overflow-hidden">
+			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/10 blur-[150px] -z-10 rounded-full"></div>
+			<div class="container mx-auto max-w-4xl glass p-12 rounded-[40px] text-center space-y-8 border border-accent/20">
+				<h2 class="text-4xl md:text-6xl font-bold">¿Listo para encontrar tu <span class="text-accent">Solución</span>?</h2>
+				<p class="text-text-secondary text-xl max-w-2xl mx-auto">
+					Hablemos sobre cómo podemos digitalizar y automatizar tu negocio para llevarlo al siguiente nivel.
+				</p>
+				<button class="bg-accent text-background px-12 py-5 rounded-2xl font-bold text-xl neon-glow hover:scale-105 transition-transform">
+					Iniciar Conversación
+				</button>
+			</div>
+		</section>
+	</main>
+	<Footer client:visible />
+</Layout>
