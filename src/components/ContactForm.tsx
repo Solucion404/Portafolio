@@ -2,27 +2,72 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../lib/supabase";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { contactSchema, type ContactFormData } from "../utils/validation";
+import { z } from "zod";
 
 export default function ContactForm() {
-    const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+    const [formData, setFormData] = useState({ name: "", email: "", message: "", _gotcha: "" });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [submittedEmail, setSubmittedEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
+    const [startTime] = useState(Date.now());
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setStatus("loading");
+        setErrorMessage("");
+        setFieldErrors({});
 
-        const { error } = await supabase.from("messages").insert([formData]);
-
-        if (error) {
-            console.error("Error sending message:", error);
-            setErrorMessage("Hubo un problema al enviar el mensaje. Inténtalo de nuevo.");
-            setStatus("error");
-        } else {
+        // 1. Honeypot check
+        if (formData._gotcha) {
+            console.warn("Bot detected via honeypot.");
+            // Fake success to confuse bots
             setSubmittedEmail(formData.email);
             setStatus("success");
-            setFormData({ name: "", email: "", message: "" });
+            setFormData({ name: "", email: "", message: "", _gotcha: "" });
+            return;
+        }
+
+        // 2. Time trap check (minimun 3 seconds to be human)
+        const timeElapsed = (Date.now() - startTime) / 1000;
+        if (timeElapsed < 3) {
+            console.warn("Submission too fast. Possible bot.");
+            // Actually let's just proceed or fake it? User didn't specify. 
+            // I'll just proceed but good to have the log.
+        }
+
+        // 3. Zod validation
+        try {
+            const validatedData = contactSchema.parse(formData);
+
+            setStatus("loading");
+
+            // Remove honeypot before sending to Supabase
+            const { _gotcha, ...dataToSave } = validatedData;
+
+            const { error } = await supabase.from("messages").insert([dataToSave]);
+
+            if (error) {
+                console.error("Error sending message:", error);
+                setErrorMessage("Hubo un problema al enviar el mensaje. Inténtalo de nuevo.");
+                setStatus("error");
+            } else {
+                setSubmittedEmail(validatedData.email);
+                setStatus("success");
+                setFormData({ name: "", email: "", message: "", _gotcha: "" });
+            }
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const errors: Partial<Record<keyof ContactFormData, string>> = {};
+                err.issues.forEach((issue) => {
+                    if (issue.path[0]) {
+                        errors[issue.path[0] as keyof ContactFormData] = issue.message;
+                    }
+                });
+                setFieldErrors(errors);
+                setErrorMessage("Por favor, corrige los errores en el formulario.");
+                setStatus("idle");
+            }
         }
     };
 
@@ -75,8 +120,9 @@ export default function ContactForm() {
                                     value={formData.name}
                                     onChange={handleChange}
                                     placeholder="Ej. John Doe"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-accent/50 transition-all text-text-primary"
+                                    className={`w-full bg-white/5 border ${fieldErrors.name ? "border-red-500/50" : "border-white/10"} rounded-xl px-4 py-3 focus:outline-none focus:border-accent/50 transition-all text-text-primary`}
                                 />
+                                {fieldErrors.name && <p className="text-red-500 text-xs font-mono">{fieldErrors.name}</p>}
                             </div>
                             <div className="space-y-2">
                                 <label htmlFor="email" className="text-sm font-mono text-accent">EMAIL_CONTACTO</label>
@@ -88,9 +134,22 @@ export default function ContactForm() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="john@example.com"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-accent/50 transition-all text-text-primary"
+                                    className={`w-full bg-white/5 border ${fieldErrors.email ? "border-red-500/50" : "border-white/10"} rounded-xl px-4 py-3 focus:outline-none focus:border-accent/50 transition-all text-text-primary`}
                                 />
+                                {fieldErrors.email && <p className="text-red-500 text-xs font-mono">{fieldErrors.email}</p>}
                             </div>
+                        </div>
+
+                        {/* Honeypot field (hidden from humans) */}
+                        <div className="hidden" aria-hidden="true">
+                            <input
+                                type="text"
+                                name="_gotcha"
+                                value={formData._gotcha}
+                                onChange={handleChange}
+                                tabIndex={-1}
+                                autoComplete="off"
+                            />
                         </div>
 
                         <div className="space-y-2">
@@ -103,8 +162,9 @@ export default function ContactForm() {
                                 onChange={handleChange}
                                 rows={4}
                                 placeholder="Cuéntame sobre tu proyecto o problema técnico..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-accent/50 transition-all text-text-primary resize-none"
+                                className={`w-full bg-white/5 border ${fieldErrors.message ? "border-red-500/50" : "border-white/10"} rounded-xl px-4 py-3 focus:outline-none focus:border-accent/50 transition-all text-text-primary resize-none`}
                             />
+                            {fieldErrors.message && <p className="text-red-500 text-xs font-mono">{fieldErrors.message}</p>}
                         </div>
 
                         {status === "error" && (
