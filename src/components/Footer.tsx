@@ -25,7 +25,7 @@ export default function Footer() {
                     <div className="space-y-4">
                         <h4 className="font-bold text-lg">Explorar</h4>
                         <ul className="space-y-2 text-text-secondary">
-                            <li><a href="#" className="hover:text-accent transition-colors">Inicio</a></li>
+                            <li><a href="#inicio" className="hover:text-accent transition-colors">Inicio</a></li>
                             <li><a href="#servicios" className="hover:text-accent transition-colors">Servicios</a></li>
                             <li><a href="#portafolio" className="hover:text-accent transition-colors">Portafolio</a></li>
                             <li><a href="#contacto" className="hover:text-accent transition-colors">Contacto</a></li>

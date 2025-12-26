@@ -12,9 +12,15 @@ import Footer from "../components/Footer.tsx";
 <Layout title="Solución404 | Desarrollo Web y Automatización">
 	<Navbar client:load />
 	<main>
-		<Hero client:load />
+		<section id="inicio">
+			<Hero client:load />
+		</section>
+
 		<StackMarquee client:load />
-		<BentoGrid client:visible />
+
+		<section id="servicios">
+			<BentoGrid client:visible />
+		</section>
 
 		<!-- Additional sections can be added here -->
 		<section id="portafolio" class="py-24 px-6 bg-white/[0.01]">

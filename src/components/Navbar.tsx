@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { name: "Inicio", href: "#" },
+  { name: "Inicio", href: "#inicio" },
   { name: "Servicios", href: "#servicios" },
   { name: "Portafolio", href: "#portafolio" },
-  { name: "Contacto", href: "#contacto" },
 ];
 
 export default function Navbar() {
@@ -27,9 +26,8 @@ export default function Navbar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className={`max-w-5xl mx-auto glass rounded-full px-6 py-3 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
-          isScrolled ? "py-2 shadow-2xl" : ""
-        }`}
+        className={`max-w-5xl mx-auto glass rounded-full px-6 py-3 flex items-center justify-between pointer-events-auto transition-all duration-300 ${isScrolled ? "py-2 shadow-2xl" : ""
+          }`}
       >
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center font-mono font-bold text-background">
@@ -51,13 +49,14 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
-          <motion.button
+          <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            href="#contacto"
             className="border border-accent text-accent px-5 py-2 rounded-full text-sm font-medium hover:bg-accent hover:text-background transition-colors"
           >
             Iniciar Proyecto
-          </motion.button>
+          </motion.a>
         </div>
 
         {/* Mobile Toggle */}
@@ -86,9 +85,13 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
-          <button className="bg-accent text-background w-full py-3 rounded-xl font-bold mt-4">
+          <a
+            href="#contacto"
+            className="bg-accent text-background w-full py-3 rounded-xl font-bold mt-4 text-center"
+            onClick={() => setMobileMenuOpen(false)}
+          >
             Iniciar Proyecto
-          </button>
+          </a>
         </motion.div>
       )}
     </nav>

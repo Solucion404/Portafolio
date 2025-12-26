@@ -35,22 +35,24 @@ export default function Hero() {
                         Desarrollo Web y Automatización para negocios que buscan evolucionar en un mundo digital cada vez más complejo.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <motion.button
+                    <div className="flex flex-col sm:flex-row gap-4 text-center">
+                        <motion.a
+                            href="#contacto"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="bg-accent text-background px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 neon-glow"
                         >
                             Contactar Ahora
                             <MoveRight className="w-5 h-5" />
-                        </motion.button>
-                        <motion.button
+                        </motion.a>
+                        <motion.a
+                            href="#portafolio"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="glass px-8 py-4 rounded-2xl font-bold text-lg hover:border-white/20 transition-all"
+                            className="glass px-8 py-4 rounded-2xl font-bold text-lg hover:border-white/20 transition-all flex items-center justify-center"
                         >
                             Ver Portafolio
-                        </motion.button>
+                        </motion.a>
                     </div>
                 </motion.div>
 
