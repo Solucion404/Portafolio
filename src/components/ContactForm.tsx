@@ -18,43 +18,27 @@ export default function ContactForm() {
         setErrorMessage("");
         setFieldErrors({});
 
-        // 1. Honeypot check
-        if (formData._gotcha) {
-            console.warn("Bot detected via honeypot.");
-            // Fake success to confuse bots
-            setSubmittedEmail(formData.email);
-            setStatus("success");
-            setFormData({ name: "", email: "", message: "", _gotcha: "" });
-            return;
-        }
-
-        // 2. Time trap check (minimun 3 seconds to be human)
-        const timeElapsed = (Date.now() - startTime) / 1000;
-        if (timeElapsed < 3) {
-            console.warn("Submission too fast. Possible bot.");
-            // Actually let's just proceed or fake it? User didn't specify. 
-            // I'll just proceed but good to have the log.
-        }
-
-        // 3. Zod validation
+        // 1. Zod validation
         try {
-            const validatedData = contactSchema.parse(formData);
-
+            contactSchema.parse(formData);
             setStatus("loading");
 
-            // Remove honeypot before sending to Supabase
-            const { _gotcha, ...dataToSave } = validatedData;
+            // 2. Submit to API
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
 
-            const { error } = await supabase.from("messages").insert([dataToSave]);
+            const result = await response.json();
 
-            if (error) {
-                console.error("Error sending message:", error);
-                setErrorMessage("Hubo un problema al enviar el mensaje. Inténtalo de nuevo.");
-                setStatus("error");
-            } else {
-                setSubmittedEmail(validatedData.email);
+            if (response.ok && result.success) {
+                setSubmittedEmail(formData.email);
                 setStatus("success");
                 setFormData({ name: "", email: "", message: "", _gotcha: "" });
+            } else {
+                setErrorMessage(result.error || "Hubo un problema al enviar el mensaje.");
+                setStatus("error");
             }
         } catch (err) {
             if (err instanceof z.ZodError) {
@@ -67,6 +51,9 @@ export default function ContactForm() {
                 setFieldErrors(errors);
                 setErrorMessage("Por favor, corrige los errores en el formulario.");
                 setStatus("idle");
+            } else {
+                setErrorMessage("Error de conexión. Inténtalo de nuevo.");
+                setStatus("error");
             }
         }
     };
