@@ -1,48 +1,8 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Folder } from "lucide-react";
-
-interface Project {
-    id: number;
-    title: string;
-    description: string;
-    image_url: string;
-    tags: string[];
-    repo_url: string;
-    live_url: string;
-}
+import { ExternalLink, Folder } from "lucide-react";
+import { projects } from "../data/projects";
 
 export default function Projects() {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchProjects() {
-            const { data, error } = await supabase
-                .from("projects")
-                .select("*")
-                .order("created_at", { ascending: false });
-
-            if (error) {
-                console.error("Error fetching projects:", error);
-            } else {
-                setProjects(data || []);
-            }
-            setLoading(false);
-        }
-
-        fetchProjects();
-    }, []);
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center py-20">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
-            </div>
-        );
-    }
-
     if (projects.length === 0) {
         return (
             <div className="glass p-12 rounded-3xl border border-dashed border-white/10 text-center">
@@ -75,11 +35,6 @@ export default function Projects() {
                             </div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6 gap-4">
-                            {project.repo_url && (
-                                <a href={project.repo_url} target="_blank" rel="noopener noreferrer" className="p-2 glass rounded-full hover:bg-accent hover:text-background transition-colors">
-                                    <Github size={20} />
-                                </a>
-                            )}
                             {project.live_url && (
                                 <a href={project.live_url} target="_blank" rel="noopener noreferrer" className="p-2 glass rounded-full hover:bg-accent hover:text-background transition-colors">
                                     <ExternalLink size={20} />
