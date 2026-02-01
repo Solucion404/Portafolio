@@ -13,7 +13,10 @@ interface Props {
 	description?: string;
 }
 
-const { title, description = "Solución404 - Desarrollo Web, Digitalización y Automatización." } = Astro.props;
+const {
+	title,
+	description = "Solución404 - Desarrollo Web, Digitalización y Automatización.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -25,14 +28,43 @@ const { title, description = "Solución404 - Desarrollo Web, Digitalización y A
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<!-- HTML Meta Tags -->
+		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<!-- Add more meta tags if needed -->
+		<meta property="og:url" content={Astro.url} />
+		<meta
+			property="og:title"
+			content="Solución404 | Desarrollo Web y Automatización"
+		/>
+		<meta
+			property="og:description"
+			content="Especialistas en transformar problemas técnicos en ventajas competitivas."
+		/>
+		<meta
+			property="og:image"
+			content={new URL("/og-image.png", Astro.url)}
+		/>
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta
+			property="twitter:title"
+			content="Solución404 | Desarrollo Web y Automatización"
+		/>
+		<meta
+			property="twitter:description"
+			content="Especialistas en transformar problemas técnicos en ventajas competitivas."
+		/>
+		<meta
+			property="twitter:image"
+			content={new URL("/og-image.png", Astro.url)}
+		/>
 	</head>
 	<body>
-		<div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,#171717_0%,#0A0A0A_100%)]"></div>
+		<div
+			class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,#171717_0%,#0A0A0A_100%)]"
+		>
+		</div>
 		<slot />
 	</body>
 </html>
